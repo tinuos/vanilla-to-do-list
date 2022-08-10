@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To do List App</title>
+
+  <style>
+    .todo-item.completed p {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <!-- wrapper -->
+  <div class="wrap">
+    <h1 class="todo-title">To do list</h1>
+    <form class="todo-form">
+      <input type="text" />
+      <button type="submit">등록</button>
+    </form>
+    <ul class="todo-list">
+    </ul>
+  </div>
+  <script type="module" src="./todoApp.js"></script>
+</body>
+</html>
