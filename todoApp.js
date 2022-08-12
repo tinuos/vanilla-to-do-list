@@ -22,17 +22,7 @@ function saveTodos(todoList) {
 }
 
 // 할 일 데이터 추가 및 저장
-function createTodo() {
-  const inputText = formInputEl.value;
-  const todo = {};
-
-  if (inputText !== '') {
-    todo.id = new Date().getTime();
-    todo.title = inputText;
-    todo.completed = false;
-  }
-  formInputEl.value = '';
-
+function createTodo(todo) {
   // getTodos 동작에 따라 null이 부여될 수 있어 다시 빈배열을 할당
   if (todoList === null) {
     todoList = []; 
@@ -75,11 +65,106 @@ function deleteTodo(event) {
   saveTodos(todoList);
 }
 
+// 할 일 수정용 데이터 객체 생성 함수
+function createUpdateObject(event) {
+  const liEl = event.target.parentElement;
+  const pEl = liEl.querySelector('p');
+  const inputEl = liEl.querySelector('input');
+  const controlBoxEls = liEl.querySelector('.control-box');
+  const otherLiEls = [].slice.call(todoListEl.querySelectorAll('.todo-item'));
+
+  return { liEl, pEl, inputEl, controlBoxEls, otherLiEls };
+}
+
+// 수정 기능에서 벗어날 때 기본 뷰 형태 처리 함수
+function backToBasicView({liEl, pEl, inputEl, controlBoxEls, otherLiEls}) {
+  inputEl.type = 'hidden';
+  pEl.style.display = 'block';
+
+  formInputEl.disabled = false;
+  submitBtnEl.disabled = false;
+  controlBoxEls.classList.toggle('updating');
+
+  otherLiEls.forEach(li => {
+    if (li.id !== liEl.id) {
+      li.classList.toggle('updating');
+    }
+  });
+
+}
+
+// 할 일 내용 수정 관련 이벤트 처리
+function checkUpdateEvent(event) {
+  const dataForUpdate = createUpdateObject(event);
+  const { liEl, pEl, inputEl } = dataForUpdate;
+
+  // 1. 입력 양식이 빈 문자열이 아니면서 엔터키가 입력되었을 때
+  // - 수정 기능 처리
+  if (inputEl.value !== '' && event.key === 'Enter') {
+    todoList = todoList.map(todo => {
+      if (todo.id.toString() === liEl.id) {
+        todo.title = inputEl.value;
+      }
+      return todo;
+    })
+    
+    saveTodos(todoList);
+    backToBasicView(dataForUpdate);
+    pEl.textContent = inputEl.value;
+    // 2. 입력 양식이 빈 문자열이면서 포커스 아웃되었을 때
+    // - 기존 뷰 형태로 돌아가기
+  } else if (inputEl.value === '' && event.type === 'focusout') {
+    backToBasicView(dataForUpdate);
+  }
+}
+
+// 할 일 내용 수정
+function updateTodo(event) {
+  const {
+    liEl,
+    pEl,
+    inputEl,
+    controlBoxEls,
+    otherLiEls
+  } = createUpdateObject(event);
+ 
+  if(!liEl.classList.contains('completed')) {
+    pEl.style.display = 'none';
+    inputEl.type = 'text';
+    inputEl.value = pEl.textContent;
+    inputEl.placeholder = pEl.textContent;
+    inputEl.focus();
+      
+    inputEl.addEventListener('focusout', checkUpdateEvent);
+    inputEl.addEventListener('keydown', checkUpdateEvent);
+
+    formInputEl.disabled = true;
+    submitBtnEl.disabled = true;
+    controlBoxEls.classList.toggle('updating');
+
+    otherLiEls.forEach(li => {
+      if (li.id !== liEl.id) {
+        li.classList.toggle('updating');
+      }
+    });
+  }  
+}
+
 // 제출 버튼 감지
 function checkSubmit(event) {
   event.preventDefault();
 
-  createTodo();  
+  const inputText = formInputEl.value;
+  const todo = {};
+  
+  if (inputText !== '') {
+    todo.id = new Date().getTime();
+    todo.title = inputText;
+    todo.completed = false;
+    createTodo(todo);  
+  }
+
+  formInputEl.value = '';
 }
 
 // 할 일 요소 렌더링
@@ -87,7 +172,8 @@ function renderTodo(todo) {
     const li = document.createElement('li');
     const template = `
       <p>${todo.title}</p>
-      <div>
+      <input type="hidden"/>
+      <div class="control-box">
         <i>✅</i>
         <i>❌</i>
       </div>
@@ -96,6 +182,7 @@ function renderTodo(todo) {
     li.classList.add('todo-item');
     li.id = todo.id;
 
+    const todoContent = li.querySelector('p');
     const checkIcon = li.querySelector('.todo-item i:first-child');
     const deleteIcon = li.querySelector('.todo-item i:last-child');
     
@@ -103,6 +190,7 @@ function renderTodo(todo) {
       li.classList.add('completed');
     }
 
+    todoContent.addEventListener('dblclick', updateTodo);
     checkIcon.addEventListener('click', checkCompleted);
     deleteIcon.addEventListener('click', deleteTodo);
 

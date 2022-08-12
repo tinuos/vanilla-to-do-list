@@ -7,10 +7,32 @@
   <title>To do List App</title>
 
   <style>
+    .todo-list {
+      border: 1px solid red;
+    }
+    
+    .todo-item {
+      border: 1px solid blue;
+    }
+    .updating {
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+    .updating::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: block;
+      background-color: #fff;
+      opacity: 0.7;
+    }
+
     .todo-item.completed p {
       text-decoration: line-through;
     }
-  </style>
+    </style>
 </head>
 <body>
   <!-- wrapper -->
@@ -20,7 +42,7 @@
       <input type="text" />
       <button type="submit">등록</button>
     </form>
-    <ul class="todo-list">
+    <ul class="todo-list" draggable="false">
     </ul>
   </div>
   <script type="module" src="./todoApp.js"></script>
