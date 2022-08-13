@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Ubuntu:wght@400;700&display=swap');
+/* font-family: 'Nanum Pen Script', cursive;
+font-family: 'Ubuntu', sans-serif; */
+
+html {
+  font-size: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  color: #000;
+}
+ul {
+  padding-inline-start: 0;
+}
+li {
+  list-style-type: none;
+  padding-left: 0;
+}
+button {
+  border: none;
+  background: none;
+}
+input {
+  border: none;
+}
+input:focus {
+  outline: none;
+}
+
+.wrap {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  /* width: 360px; */
+  /* height: 740px; */
+}
+
+.todo-app {
+  background-color: #00695C;
+  width: 100%;
+  height: 100%;
+}
+.todo-app input {
+  font-family: 'Nanum Pen Script', cursive;
+  color: #fff;
+  font-size: 1.6rem;
+}
+
+/* HEADER */
+.todo-app > header {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.todo-app > header > h1 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 4rem;
+  color: #fff;
+  text-shadow: 3px 5px 2px #474747;
+}
+
+/* MAIN */
+.todo-app > main {
+  width: 100%;
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* MAIN > .todo-form */
+.todo-app > main > .todo-form {
+  position: relative;
+  width: 360px;
+  height: 60px;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.todo-app > main > .todo-form > input {
+  width: 245px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  color: #000;
+
+  -webkit-box-shadow: 0px 7px 9px -7px #000, 5px 5px 15px 5px rgba(0,0,0,0); 
+  box-shadow: 0px 7px 9px -7px #000, 5px 5px 15px 5px rgba(0,0,0,0);
+}
+.todo-app > main > .todo-form > input:focus {
+  outline-style: solid;
+  outline-width: 5px;
+  outline-color: #003D33;
+}
+.todo-app > main > .todo-form > input:disabled {
+  cursor: not-allowed;
+}
+.todo-app > main > .todo-form > button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background-color: #003D33;
+  border-radius: 50%;
+  cursor: pointer;
+
+  -webkit-box-shadow: 0px 7px 9px -7px #000, 5px 5px 15px 5px rgba(0,0,0,0); 
+  box-shadow: 0px 7px 9px -7px #000, 5px 5px 15px 5px rgba(0,0,0,0);
+}
+.todo-app > main > .todo-form > button::before,
+.todo-app > main > .todo-form > button::after {
+  content: '';
+  position: absolute;
+  background-color: #fff;
+}
+.todo-app > main > .todo-form > button::before {
+  top: 7px;
+  left: 17px;
+  width: 6px;
+  height: 26px;
+}
+.todo-app > main > .todo-form > button::after {
+  top: 17px;
+  left: 7px;
+  width: 26px;
+  height: 6px;   
+}
+.todo-app > main > .todo-form > button:hover {
+  transform: scale(1);
+  animation: 0.8s infinite ease-in-out btnhover;
+}
+.todo-app > main > .todo-form > button:disabled {
+  cursor: not-allowed;
+  animation: none;
+  opacity: 0.5;
+}
+
+/* MAIN > .todo-list */
+.todo-app > main > .todo-list {
+  width: 100%;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+.todo-app > main > .todo-list .todo-item {
+  width: 320px;
+  height: 60px;
+  padding: 15px;
+  background-color: #439889;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  -webkit-box-shadow: 0px 7px 9px -7px #000, 5px 5px 15px 5px rgba(0,0,0,0); 
+  box-shadow: 0px 7px 9px -7px #000, 5px 5px 15px 5px rgba(0,0,0,0);
+}
+.todo-app > main > .todo-list .todo-item + .todo-item {
+  margin-top: 20px;
+}
+.todo-app > main > .todo-list .todo-item p {
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 2rem;
+  color: #fff;
+  width: 180px;
+  height: 30px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.todo-app > main > .todo-list .todo-item input[type="text"] {
+  color: #000;
+  width: 180px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+.todo-app > main > .todo-list .todo-item .control-box {
+  width: 70px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.todo-app > main > .todo-list .todo-item .control-box i {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.todo-app > main > .todo-list .todo-item .control-box i:first-child {
+  color: #00ff00;
+}
+.todo-app > main > .todo-list .todo-item .control-box i:last-child {
+  color: #ff0000;
+}
+.todo-app > main > .todo-list .todo-item .control-box i:hover {
+  transform: scale(1.2);
+}
+
+.updating {
+  position: relative;
+}
+.updating::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: #003D33;
+  opacity: 0.7;
+  border-radius: 10px;
+  cursor: not-allowed;
+}
+
+.todo-item.completed p {
+  text-decoration: line-through;
+  text-decoration-color: #00ff00;
+  text-decoration-style: double;
+}
+
+/* FOOTER */
+.todo-app > footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #003D33;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #fff;
+}
+
+.todo-app > footer > nav > ul {
+  width: 150px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.todo-app > footer > nav > ul li {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.todo-app > footer > nav > ul li a i {
+  color: #fff;
+}
+
+/* Animation List */
+@keyframes btnhover {
+  100% {
+    transform: scale(1.2);
+  }
+}

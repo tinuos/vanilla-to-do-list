@@ -131,9 +131,9 @@ function updateTodo(event) {
   if(!liEl.classList.contains('completed')) {
     pEl.style.display = 'none';
     inputEl.type = 'text';
+    inputEl.focus();
     inputEl.value = pEl.textContent;
     inputEl.placeholder = pEl.textContent;
-    inputEl.focus();
       
     inputEl.addEventListener('focusout', checkUpdateEvent);
     inputEl.addEventListener('keydown', checkUpdateEvent);
@@ -174,8 +174,8 @@ function renderTodo(todo) {
       <p>${todo.title}</p>
       <input type="hidden"/>
       <div class="control-box">
-        <i>✅</i>
-        <i>❌</i>
+        <i class="fa-solid fa-check fa-xl"></i>
+        <i class="fa-solid fa-trash-can fa-xl"></i>
       </div>
     `
     li.innerHTML = template;
@@ -183,16 +183,16 @@ function renderTodo(todo) {
     li.id = todo.id;
 
     const todoContent = li.querySelector('p');
-    const checkIcon = li.querySelector('.todo-item i:first-child');
-    const deleteIcon = li.querySelector('.todo-item i:last-child');
+    const checkBtnIcon = li.querySelector('.todo-item > .control-box i:first-child');
+    const deletBtnIcon = li.querySelector('.todo-item > .control-box i:last-child');
     
     if (todo.completed) {
       li.classList.add('completed');
     }
 
     todoContent.addEventListener('dblclick', updateTodo);
-    checkIcon.addEventListener('click', checkCompleted);
-    deleteIcon.addEventListener('click', deleteTodo);
+    checkBtnIcon.addEventListener('click', checkCompleted);
+    deletBtnIcon.addEventListener('click', deleteTodo);
 
     todoListEl.appendChild(li);
 }
